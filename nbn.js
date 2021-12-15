@@ -92,7 +92,7 @@ function nbtnShowbox(e) {
             if (urlpath.startsWith(view)) {
                 for (const items of Object.keys(nbtn_views[view])) {
                     var newurl = new URL(url);
-                    var viewitem = nbtn_views[view][items][0].replace('$id$', id).replace('$obj$', encodeURI(objtext)).replace('$return_url$',encodeURIComponent(window.location.href));
+                    var viewitem = nbtn_views[view][items][0];
                     var uri = viewitem.split('?');
                     if (viewitem.startsWith('/')) {
                         newurl.pathname = uri[0];
@@ -102,7 +102,7 @@ function nbtnShowbox(e) {
                     if (uri.length>1) {
                         for (var vars of uri[1].split('&')) {
                             vars = vars.split(/=(.+)/)
-                            newurl.searchParams.set(vars[0], vars[1]);
+                            newurl.searchParams.set(vars[0], vars[1].replace('$id$', id).replace('$obj$', objtext).replace('$return_url$',window.location.href));
                         }
                     }
                     nbtnmenu.innerHTML += '<li class="list-group-item list-group-item-action' + (items == 'Delete' ? ' trash' : '') + '"><a href="' + newurl + '"><i class="mdi ' + nbtn_views[view][items][1] + '"></i> ' + items + '</a></li>';
