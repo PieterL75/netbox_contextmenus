@@ -19,6 +19,7 @@ const nbtn_views = {
     '/ipam/ip-addresses/': {
         'View': ['', 'mdi-share'],
         'Edit': ['edit/?return_url=$current_url$', 'mdi-pencil'],
+        'Parent Prefix': ['/ipam/prefixes/?contains=$obj$'],
         'Delete': ['delete/?return_url=$current_url$', 'mdi-delete'],
     },
     '/ipam/prefixes/': {
