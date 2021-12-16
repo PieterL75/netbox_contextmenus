@@ -14,3 +14,5 @@ The menu items can easliy be personalised
 - Put this code in /opt/netbox/netbox/media/scripts/nbn.js
 - restart the netbox service
 
+Not a real 'plugin' in the real sense of the word, as it is not using the plugins feature of Netbox.
+But rather an 'addon' 
