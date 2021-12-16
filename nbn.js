@@ -44,6 +44,7 @@ const nbtn_views = {
     '/ipam/vlans/': {
         'View': ['', 'mdi-share'],
         'Edit': ['edit/?return_url=$current_url$', 'mdi-pencil'],
+        'Prefixes': ['/ipam/prefixes/?vrf_id=$id$', 'mdi-dots-horizontal'],
         'Device Interfaces': ['interfaces/', 'mdi-chart-pie'],
         'VM Interfaces': ['vm-interfaces/', 'mdi-barcode'],
         'Delete': ['delete/?return_url=$current_url$', 'mdi-delete'],
