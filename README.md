@@ -9,8 +9,7 @@ The menu items can easliy be personalised
 
 ## Installation:
 
-- Set the BANNER_BOTTOM in your configuration.py
-    BANNER_BOTTOM = '<script src="/media/scripts/nbcm.js"></script>'
+- Set the BANNER_BOTTOM in your configuration.py   ```BANNER_BOTTOM = '<script src="/media/scripts/nbcm.js"></script>'```
 - Put this code in /opt/netbox/netbox/media/scripts/nbcm.js
 - restart the netbox service
 
