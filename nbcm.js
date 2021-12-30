@@ -1,134 +1,132 @@
-const nbtn_views = {
-    '/dcim/devices/': {
+const nbcm_views_all = {
+    'pre': {
         'View': ['', 'mdi-share'],
         'Edit': ['edit/?return_url=$current_url$', 'mdi-pencil'],
+    },
+    'post': {
+        'Delete': ['delete/?return_url=$current_url$', 'mdi-delete'],
+    },
+}
+const nbcm_views = {
+    '/dcim/devices/': {
         'Interfaces': ['interfaces/', 'mdi-dots-vertical'],
         'Console Ports': ['console-ports/', 'mdi-dots-vertical'],
         'Power Ports': ['power-ports/', 'mdi-dots-vertical'],
         'Inventory': ['inventory/', 'mdi-dots-vertical'],
         'Status': ['status/', 'mdi-dots-vertical'],
-        'Delete': ['delete/?return_url=$current_url$', 'mdi-delete'],
     },
     '/dcim/racks/': {
-        'View': ['', 'mdi-share'],
-        'Edit': ['edit/?return_url=$current_url$', 'mdi-pencil'],
         'Devices': ['/dcim/devices/?rack_id=$id$', 'mdi-dots-vertical'],
         'Power Feeds': ['/dcim/power-feeds/?rack_id=$id$', 'mdi-dots-vertical'],
-        'Delete': ['delete/?return_url=$current_url$', 'mdi-delete'],
+    },
+    '/dcim/device-types/': {
+        'Interfaces': ['interfaces/', 'mdi-dots-vertical'],
+        'Console Ports': ['console-ports/', 'mdi-dots-vertical'],
+        'Power Ports': ['power-ports/', 'mdi-dots-vertical'],
+        'Front Ports': ['front-ports/', 'mdi-dots-vertical'],
+        'Rear Ports': ['rear-ports/', 'mdi-dots-vertical'],
+        'Console Server Ports': ['console-serves-ports/', 'mdi-dots-vertical'],
+        'Power Outlets': ['power-outlets/', 'mdi-dots-vertical'],
+        'Device Bays': ['device-bays/', 'mdi-dots-vertical'],
     },
     '/ipam/ip-addresses/': {
-        'View': ['', 'mdi-share'],
-        'Edit': ['edit/?return_url=$current_url$', 'mdi-pencil'],
-        'Parent Prefix': ['/ipam/prefixes/?contains=$obj$'],
-        'Delete': ['delete/?return_url=$current_url$', 'mdi-delete'],
+        'Parent Prefix': ['/ipam/prefixes/?contains=$obj$', 'mdi-dots-vertical'],
+        'SSH': ['ssh://$obj_ip$', 'mdi-monitor-lock'],
+        'HTTPS': ['https://$obj_ip$', 'mdi-cloud-lock'],
     },
     '/ipam/prefixes/': {
-        'View': ['', 'mdi-share'],
-        'Edit': ['edit/?return_url=$current_url$', 'mdi-pencil'],
         'Child Prefixes': ['prefixes/', 'mdi-chart-pie'],
         'Child IPranges': ['ip-ranges/', 'mdi-barcode'],
         'IP Addresses': ['ip-addresses/', 'mdi-dots-vertical'],
-        'Delete': ['delete/?return_url=$current_url$', 'mdi-delete'],
     },
     '/ipam/aggregates/': {
-        'View': ['', 'mdi-share'],
-        'Edit': ['edit/?return_url=$current_url$', 'mdi-pencil'],
         'Prefixes': ['/ipam/prefixes/?within_include=$obj$', 'mdi-chart-pie'],
-        'Delete': ['delete/?return_url=$current_url$', 'mdi-delete'],
     },
     '/ipam/vrfs/': {
-        'View': ['', 'mdi-share'],
-        'Edit': ['edit/?return_url=$current_url$', 'mdi-pencil'],
         'Prefixes': ['/ipam/prefixes/?vrf_id=$id$', 'mdi-dots-horizontal'],
-        'Delete': ['delete/?return_url=$current_url$', 'mdi-delete'],
     },
     '/ipam/vlans/': {
-        'View': ['', 'mdi-share'],
-        'Edit': ['edit/?return_url=$current_url$', 'mdi-pencil'],
         'Prefixes': ['/ipam/prefixes/?vrf_id=$id$', 'mdi-dots-horizontal'],
         'Device Interfaces': ['interfaces/', 'mdi-chart-pie'],
         'VM Interfaces': ['vm-interfaces/', 'mdi-barcode'],
-        'Delete': ['delete/?return_url=$current_url$', 'mdi-delete'],
     },
     '/ipam/vlan-groups/': {
-        'View': ['', 'mdi-share'],
-        'Edit': ['edit/?return_url=$current_url$', 'mdi-pencil'],
         'VLANs': ['/ipam/vlans/?group_id=$id$', 'mdi-dots-horizontal'],
-        'Delete': ['delete/?return_url=$current_url$', 'mdi-delete'],
     },
     '/tenancy/tenants/': {
-        'View': ['', 'mdi-share'],
-        'Edit': ['edit/?return_url=$current_url$', 'mdi-pencil'],
         'VLANs': ['/ipam/vlans/?tenant_id=$id$', 'mdi-dots-horizontal'],
         'Prefixes': ['/ipam/prefixes/?tenant_id=$id$', 'mdi-dots-horizontal'],
         'Devices': ['/dcim/devices/?tenant_id=$id$', 'mdi-dots-horizontal'],
         'VMs': ['/virtualization/virtual-machines/?tenant_id=$id$', 'mdi-dots-horizontal'],
-        'Delete': ['delete/?return_url=$current_url$', 'mdi-delete'],
     },
     '/tenancy/tenant-groups/': {
-        'View': ['', 'mdi-share'],
-        'Edit': ['edit/?return_url=$current_url$', 'mdi-pencil'],
-        'Delete': ['delete/?return_url=$current_url$', 'mdi-delete'],
     },
 };
 
 
-function nbtnHideBox() {
-    document.getElementById("nbtnboxmenu").style.display = "none"
+function nbcmHideBox() {
+    document.getElementById("nbcmboxmenu").style.display = "none"
 }
 
-function nbtnShowbox(e) {
+function nbcmShowbox(e) {
     e.preventDefault();
 
-    var nbtnboxmenu = document.getElementById("nbtnboxmenu");
-    if (nbtnboxmenu) {
+    var nbcmboxmenu = document.getElementById("nbcmboxmenu");
+    if (nbcmboxmenu) {
         var url = new URL(e.currentTarget.url)
-        var nbtnboxpos = e.currentTarget.getBoundingClientRect();
+        var nbcmboxpos = e.currentTarget.getBoundingClientRect();
         var urlpath = url.pathname;
         var parts = urlpath.split('/');
         var id = parts[3];
         var objtext = e.relatedTarget.innerText;
-        var nbtnmenu = nbtnboxmenu.getElementsByClassName('nbtn-menu')[0]
-        nbtnmenu.innerHTML = '';
-        for (const view of Object.keys(nbtn_views)) {
+        var nbcmmenu = nbcmboxmenu.getElementsByClassName('nbcm-menu')[0]
+        nbcmmenu.innerHTML = '';
+        for (const view of Object.keys(nbcm_views)) {
             if (urlpath.startsWith(view)) {
-                for (const items of Object.keys(nbtn_views[view])) {
+                var nbcm_view_full= {
+                    ...nbcm_views_all['pre'],
+                    ...nbcm_views[view],
+                    ...nbcm_views_all['post'],
+                }
+                for (const item of Object.keys(nbcm_view_full)) {
                     var newurl = new URL(url);
-                    var viewitem = nbtn_views[view][items][0];
-                    var uri = viewitem.split('?');
-                    if (viewitem.startsWith('/')) {
+                    var viewitem = nbcm_view_full[item];
+                    var uri = viewitem[0].split('?');
+                    if (viewitem[0].startsWith('/')) {
                         newurl.pathname = uri[0];
+                    } else if (viewitem[0].includes('://')) {
+                        newurl = uri[0].replace('$id$', id).replace('$obj_ip$', objtext.split('/')[0]).replace('$obj$', objtext).replace('$current_url$',window.location.href);
                     } else {
                         newurl.pathname += uri[0];
                     }
                     if (uri.length>1) {
                         for (var vars of uri[1].split('&')) {
                             vars = vars.split(/=(.+)/)
-                            newurl.searchParams.set(vars[0], vars[1].replace('$id$', id).replace('$obj$', objtext).replace('$current_url$',window.location.href));
+                            newurl.searchParams.set(vars[0], vars[1].replace('$id$', id).replace('$obj_ip$', objtext.split('/')[0]).replace('$obj$', objtext).replace('$current_url$',window.location.href));
                         }
                     }
-                    nbtnmenu.innerHTML += '<li class="list-group-item list-group-item-action' + (items == 'Delete' ? ' trash' : '') + '"><a href="' + newurl + '"><i class="mdi ' + nbtn_views[view][items][1] + '"></i> ' + items + '</a></li>';
+                    nbcmmenu.innerHTML += '<li class="list-group-item list-group-item-action' + (item == 'Delete' ? ' trash' : '') + '"><a href="' + newurl + '"><i class="mdi ' + viewitem[1] + '"></i> ' + item + '</a></li>';
                 }
             }
         }
 
-        nbtnboxmenu.style.display = "block";
+        nbcmboxmenu.style.display = "block";
 
-        var menuWidth = nbtnboxmenu.offsetWidth + 8;
-        var menuHeight = nbtnboxmenu.offsetHeight + 8;
+        var menuWidth = nbcmboxmenu.offsetWidth + 8;
+        var menuHeight = nbcmboxmenu.offsetHeight + 8;
         var windowWidth = window.innerWidth;
         var windowHeight = window.innerHeight;
 
-        if ((windowWidth - nbtnboxpos.x) < menuWidth) {
-            nbtnboxmenu.style.left = windowWidth - menuWidth + (nbtnboxpos.width * -0.05) + "px";
+        if ((windowWidth - nbcmboxpos.x) < menuWidth) {
+            nbcmboxmenu.style.left = windowWidth - menuWidth + (nbcmboxpos.width * -0.05) + "px";
         } else {
-            nbtnboxmenu.style.left = nbtnboxpos.x + (nbtnboxpos.width * -0.05) + "px";
+            nbcmboxmenu.style.left = nbcmboxpos.x + (nbcmboxpos.width * -0.05) + "px";
         }
 
-        if ((windowHeight - nbtnboxpos.y) < menuHeight) {
-            nbtnboxmenu.style.top = windowHeight - menuHeight - 5 + "px";
+        if ((windowHeight - nbcmboxpos.y) < menuHeight) {
+            nbcmboxmenu.style.top = windowHeight - menuHeight - 5 + "px";
         } else {
-            nbtnboxmenu.style.top = nbtnboxpos.y - 5 + "px";
+            nbcmboxmenu.style.top = nbcmboxpos.y - 5 + "px";
         }
     }
 }
@@ -137,15 +135,15 @@ function nbtnShowbox(e) {
     'use strict';
 
     var css=[
-        '.nbtn-box { white-space: nowrap; display: inline-flex; }',
-        '.nbtn-icon { padding:.1rem .1rem; margin-left: .2rem; white-space: nowrap; opacity: 20%; }',
-        '.nbtn-icon:hover { opacity: 80%; }',
-        '.nbtn-context-menu { position: absolute !important; padding:2px; }',
-        '.nbtn-menu { margin: 0; list-style: none; display: flex;  flex-direction: column; padding: 5px 0; }',
-        '.nbtn-menu > li { padding: 0px !important; border: none  !important; font-size: 1em}',
-        '.nbtn-menu > li > a {  text-decoration: unset;   padding: 1px;   width: 100%;  display: flex;  transition: 0.5s linear;  -webkit-transition: 0.5s linear;  -moz-transition: 0.5s linear;  -ms-transition: 0.5s linear;  -o-transition: 0.5s linear;}',
-        '.nbtn-menu > li > a > i {  padding-right: 10px; }',
-        '.nbtn-menu > li.trash > a:hover {  color: red; }',
+        '.nbcm-box { white-space: nowrap; display: inline-flex; }',
+        '.nbcm-icon { padding:.1rem .1rem; margin-left: .2rem; white-space: nowrap; opacity: 20%; }',
+        '.nbcm-icon:hover { opacity: 80%; }',
+        '.nbcm-context-menu { position: absolute !important; padding:2px; }',
+        '.nbcm-menu { margin: 0; list-style: none; display: flex;  flex-direction: column; padding: 5px 0; }',
+        '.nbcm-menu > li { padding: 0px !important; border: none  !important; font-size: 1em}',
+        '.nbcm-menu > li > a {  text-decoration: unset;   padding: 1px;   width: 100%;  display: flex;  transition: 0.5s linear;  -webkit-transition: 0.5s linear;  -moz-transition: 0.5s linear;  -ms-transition: 0.5s linear;  -o-transition: 0.5s linear;}',
+        '.nbcm-menu > li > a > i {  padding-right: 10px; }',
+        '.nbcm-menu > li.trash > a:hover {  color: red; }',
     ]
     var head = document.getElementsByTagName('head')[0];
     if (head) {
@@ -155,15 +153,15 @@ function nbtnShowbox(e) {
         head.appendChild(style);
     }
 
-    var nbtnboxmenu = document.createElement("div");
-    nbtnboxmenu.id = "nbtnboxmenu";
-    nbtnboxmenu.className = "card nbtn-context-menu";
-    nbtnboxmenu.style = "display: none";
-    var nbtnboxmenuul = nbtnboxmenu.appendChild(document.createElement("ul"));
-    nbtnboxmenuul.className="list-group nbtn-menu";
-    document.body.appendChild(nbtnboxmenu);
-    nbtnboxmenu.addEventListener('mouseleave', function (e) {
-        nbtnHideBox(e)
+    var nbcmboxmenu = document.createElement("div");
+    nbcmboxmenu.id = "nbcmboxmenu";
+    nbcmboxmenu.className = "card nbcm-context-menu";
+    nbcmboxmenu.style = "display: none";
+    var nbcmboxmenuul = nbcmboxmenu.appendChild(document.createElement("ul"));
+    nbcmboxmenuul.className="list-group nbcm-menu";
+    document.body.appendChild(nbcmboxmenu);
+    nbcmboxmenu.addEventListener('mouseleave', function (e) {
+        nbcmHideBox(e)
     }, false);
 
     var classes = ['table']
@@ -185,26 +183,26 @@ function nbtnShowbox(e) {
                     //  - the action (4th part of the urlpath) has to be empty (excludes the action buttons)
                     //  - there should be no <i> tag in the ahref (those are the bullets for intended ip/prefix/vlan/...)
                     //  - the ahref innerhtml is not empty.
-                    for (const view of Object.keys(nbtn_views)) {
+                    for (const view of Object.keys(nbcm_views)) {
                         if (uri.startsWith(view)) {
                             // only add the menuicon to links that:
-                            //  - start with the nbtn_views key
+                            //  - start with the nbcm_views key
 
-                            var nbtnbox = link.appendChild(document.createElement("div"));
-                            nbtnbox.className = "nbtn-box";
-                            var nbtnspan = nbtnbox.appendChild(document.createElement("span"));
-                            nbtnspan.id = "nbtnbox";
-                            nbtnspan.className = "btn btn-sm nbtn-icon";
-                            nbtnspan.title = "Actions";
-                            var nbtnspani=nbtnspan.appendChild(document.createElement("i"));
-                            nbtnspani.className="mdi mdi-menu";
+                            var nbcmbox = link.appendChild(document.createElement("div"));
+                            nbcmbox.className = "nbcm-box";
+                            var nbcmspan = nbcmbox.appendChild(document.createElement("span"));
+                            nbcmspan.id = "nbcmbox";
+                            nbcmspan.className = "btn btn-sm nbcm-icon";
+                            nbcmspan.title = "Actions";
+                            var nbcmspani=nbcmspan.appendChild(document.createElement("i"));
+                            nbcmspani.className="mdi mdi-menu";
 
                             link.style['white-space'] = 'nowrap';
 
-                            nbtnbox.addEventListener('mouseover', function (e) {
-                                nbtnShowbox(e)
+                            nbcmbox.addEventListener('mouseover', function (e) {
+                                nbcmShowbox(e)
                             }, false);
-                            nbtnbox.url = link.href;
+                            nbcmbox.url = link.href;
                             break;
                         }
                     }
