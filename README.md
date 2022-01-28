@@ -3,7 +3,7 @@ Add context buttons to the links, making navigating in netbox less clicky
 
 ![nbcm1](docs/nbcm3.png)
 
-![nbcm2](docs/nbcm2.png)
+![nbcm2](docs/nbcm4.png)
 
 The menu items can easliy be personalised
 
