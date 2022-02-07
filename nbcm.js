@@ -60,6 +60,11 @@ const nbcm_views = {
         'Devices': ['/dcim/devices/?tenant_id=$id$', 'mdi-dots-horizontal'],
         'VMs': ['/virtualization/virtual-machines/?tenant_id=$id$', 'mdi-dots-horizontal'],
     },
+    'virtualization/virtual-machines': {
+        'Interfaces': ['interfaces/', 'mdi-chart-pie'],
+        'SSH': ['ssh://$obj$', 'mdi-monitor-lock'],
+        'HTTPS': ['https://$obj$', 'mdi-cloud-lock'],
+    }
     '/tenancy/tenant-groups/': {
     },
 };
