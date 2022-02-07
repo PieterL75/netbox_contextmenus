@@ -64,7 +64,7 @@ const nbcm_views = {
         'Interfaces': ['interfaces/', 'mdi-chart-pie'],
         'SSH': ['ssh://$obj$', 'mdi-monitor-lock'],
         'HTTPS': ['https://$obj$', 'mdi-cloud-lock'],
-    }
+    },
     '/tenancy/tenant-groups/': {
     },
 };
