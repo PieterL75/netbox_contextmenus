@@ -2,6 +2,7 @@ const nbcm_views_all = {
     'pre': {
         'View': ['', 'mdi-share'],
         'Edit': ['edit/?return_url=$current_url$', 'mdi-pencil'],
+        'To Clipboard': ['#copy', 'mdi-content-copy']
     },
     'post': {
         'Delete': ['delete/?return_url=$current_url$', 'mdi-delete'],
@@ -14,6 +15,8 @@ const nbcm_views = {
         'Power Ports': ['power-ports/', 'mdi-dots-vertical'],
         'Inventory': ['inventory/', 'mdi-dots-vertical'],
         'Status': ['status/', 'mdi-dots-vertical'],
+    },
+    '/dcim/interfaces/': {
     },
     '/dcim/racks/': {
         'Devices': ['/dcim/devices/?rack_id=$id$', 'mdi-dots-vertical'],
@@ -40,7 +43,7 @@ const nbcm_views = {
         'IP Addresses': ['ip-addresses/', 'mdi-dots-vertical'],
     },
     '/ipam/aggregates/': {
-        'Prefixes': ['/ipam/prefixes/?within_include=$obj$', 'mdi-chart-pie'],
+        'Prefixes': ['/ipam/aggregates/$id$/prefixes', 'mdi-chart-pie'],
     },
     '/ipam/vrfs/': {
         'Prefixes': ['/ipam/prefixes/?vrf_id=$id$', 'mdi-dots-horizontal'],
@@ -58,6 +61,15 @@ const nbcm_views = {
         'Prefixes': ['/ipam/prefixes/?tenant_id=$id$', 'mdi-dots-horizontal'],
         'Devices': ['/dcim/devices/?tenant_id=$id$', 'mdi-dots-horizontal'],
         'VMs': ['/virtualization/virtual-machines/?tenant_id=$id$', 'mdi-dots-horizontal'],
+    },
+    '/virtualization/virtual-machines': {
+        'Interfaces': ['interfaces/', 'mdi-chart-pie'],
+        'SSH': ['ssh://$obj$', 'mdi-monitor-lock'],
+        'HTTPS': ['https://$obj$', 'mdi-cloud-lock'],
+    },
+    '/virtualization/clusters' : {
+        'VMs': ['virtual-machines/', 'mdi-dots-horizontal'],
+        'Devices': ['devices/', 'mdi-dots-horizontal'],
     },
     '/tenancy/tenant-groups/': {
     },
@@ -92,8 +104,10 @@ function nbcmShowbox(e) {
                     var newurl = new URL(url);
                     var viewitem = nbcm_view_full[item];
                     var uri = viewitem[0].split('?');
-                    if (viewitem[0].startsWith('/')) {
-                        newurl.pathname = uri[0];
+                    if (viewitem[0] == '#copy') {
+                        newurl='#" onclick="window.navigator.clipboard.writeText(\''+objtext.replace("'","\\'")+'\')'
+                    } else if (viewitem[0].startsWith('/')) {
+                        newurl.pathname = uri[0].replace('$id$', id).replace('$obj_ip$', objtext.split('/')[0]).replace('$obj$', objtext).replace('$current_url$',window.location.href);
                     } else if (viewitem[0].includes('://')) {
                         newurl = uri[0].replace('$id$', id).replace('$obj_ip$', objtext.split('/')[0]).replace('$obj$', objtext).replace('$current_url$',window.location.href);
                     } else {
