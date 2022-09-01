@@ -187,7 +187,8 @@ function nbcmShowbox(e) {
             var links = divs[i].getElementsByTagName('a');
             for (j = 0; j < links.length; j++) {
                 var link = links[j];
-                var uri = link.getAttribute("href")
+                var uri = link.getAttribute("href");
+                if (uri == null) continue;
                 var parts = uri.split('/');
                 var id = parts[3];
                 var action = parts[4];
