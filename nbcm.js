@@ -230,10 +230,12 @@ function nbcm_add_burgers() {
     }
 }
 
-nbcm_add_burgers()
+nbcm_add_burgers();
 
 // Repaint after the tables are updated (ex QuickSearch or nbr items per page change)
 const nbcm_targetNode = document.getElementById('object_list');
-const nbcm_observerconfig = { childList: true, subtree: true };
-const nbcm_observer = new MutationObserver(nbcm_add_burgers);
-nbcm_observer.observe(nbcm_targetNode, nbcm_observerconfig);
+if (nbcm_targetNode) {
+    const nbcm_observerconfig = { childList: true, subtree: true };
+    const nbcm_observer = new MutationObserver(nbcm_add_burgers);
+    nbcm_observer.observe(nbcm_targetNode, nbcm_observerconfig);
+}
