@@ -180,6 +180,7 @@ function nbcmShowbox(e) {
 
     var classes = ['table']
     var i, j, k;
+    const nbcm_views_keys = Object.keys(nbcm_views)
 
     for (k = 0; k < classes.length; k++) {
         var divs = document.getElementsByClassName(classes[k]);
@@ -192,18 +193,18 @@ function nbcmShowbox(e) {
                 var parts = uri.split('/');
                 var id = parts[3];
                 var action = parts[4];
-                if (!isNaN(0 + id) && !action && link.getElementsByTagName('i').length == 0 && link.innerText.trim().length > 0) {
+                if (!isNaN(0 + id) && !action && link.getElementsByTagName('i').length == 0 && link.textContent.trim().length > 0) {
                     // only add the menuicon to links that:
                     //  - the id (3th part of the urlpath) has to be a number (excludes the generic urls)
                     //  - the action (4th part of the urlpath) has to be empty (excludes the action buttons)
                     //  - there should be no <i> tag in the ahref (those are the bullets for intended ip/prefix/vlan/...)
                     //  - the ahref innerhtml is not empty.
-                    for (const view of Object.keys(nbcm_views)) {
+                    for (const view of nbcm_views_keys) {
                         if (uri.startsWith(view)) {
                             // only add the menuicon to links that:
                             //  - start with the nbcm_views key
-
-                            var nbcmbox = link.appendChild(document.createElement("div"));
+                            var frag = document.createDocumentFragment()
+                            var nbcmbox = frag.appendChild(document.createElement("div"));
                             nbcmbox.className = "nbcm-box";
                             var nbcmspan = nbcmbox.appendChild(document.createElement("span"));
                             nbcmspan.id = "nbcmbox";
@@ -211,6 +212,8 @@ function nbcmShowbox(e) {
                             nbcmspan.title = "Actions";
                             var nbcmspani=nbcmspan.appendChild(document.createElement("i"));
                             nbcmspani.className="mdi mdi-menu";
+                            
+                            link.appendChild(frag)
 
                             link.style['white-space'] = 'nowrap';
 
