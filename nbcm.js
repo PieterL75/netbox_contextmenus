@@ -145,7 +145,7 @@ function nbcmShowbox(e) {
     }
 }
 
-(function () {
+function nbcm_add_burgers() {
     'use strict';
 
     var css=[
@@ -228,4 +228,12 @@ function nbcmShowbox(e) {
             }
         }
     }
-})();
+}
+
+nbcm_add_burgers()
+
+// Repaint after the tables are updated (ex QuickSearch or nbr items per page change)
+const nbcm_targetNode = document.getElementById('object_list');
+const nbcm_observerconfig = { childList: true, subtree: true };
+const nbcm_observer = new MutationObserver(nbcm_add_burgers);
+nbcm_observer.observe(nbcm_targetNode, nbcm_config);
