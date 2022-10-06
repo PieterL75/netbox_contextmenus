@@ -85,6 +85,7 @@ function nbcmShowbox(e) {
 
     var nbcmboxmenu = document.getElementById("nbcmboxmenu");
     if (nbcmboxmenu) {
+        var current_url = window.location.pathname + window.location.search + window.location.hash
         var url = new URL(e.currentTarget.url)
         var nbcmboxpos = e.currentTarget.getBoundingClientRect();
         var urlpath = url.pathname;
@@ -107,16 +108,16 @@ function nbcmShowbox(e) {
                     if (viewitem[0] == '#copy') {
                         newurl='#" onclick="window.navigator.clipboard.writeText(\''+objtext.replace("'","\\'")+'\')'
                     } else if (viewitem[0].startsWith('/')) {
-                        newurl.pathname = uri[0].replace('$id$', id).replace('$obj_ip$', objtext.split('/')[0]).replace('$obj$', objtext).replace('$current_url$',window.location.href);
+                        newurl.pathname = uri[0].replace('$id$', id).replace('$obj_ip$', objtext.split('/')[0]).replace('$obj$', objtext).replace('$current_url$',current_url);
                     } else if (viewitem[0].includes('://')) {
-                        newurl = uri[0].replace('$id$', id).replace('$obj_ip$', objtext.split('/')[0]).replace('$obj$', objtext).replace('$current_url$',window.location.href);
+                        newurl = uri[0].replace('$id$', id).replace('$obj_ip$', objtext.split('/')[0]).replace('$obj$', objtext).replace('$current_url$',current_url);
                     } else {
                         newurl.pathname += uri[0];
                     }
                     if (uri.length>1) {
                         for (var vars of uri[1].split('&')) {
                             vars = vars.split(/=(.+)/)
-                            newurl.searchParams.set(vars[0], vars[1].replace('$id$', id).replace('$obj_ip$', objtext.split('/')[0]).replace('$obj$', objtext).replace('$current_url$',window.location.href));
+                            newurl.searchParams.set(vars[0], vars[1].replace('$id$', id).replace('$obj_ip$', objtext.split('/')[0]).replace('$obj$', objtext).replace('$current_url$',current_url));
                         }
                     }
                     nbcmmenu.innerHTML += '<li class="list-group-item list-group-item-action' + (item == 'Delete' ? ' trash' : '') + '"><a href="' + newurl + '"><i class="mdi ' + viewitem[1] + '"></i> ' + item + '</a></li>';
