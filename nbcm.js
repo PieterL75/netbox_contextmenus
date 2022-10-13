@@ -9,18 +9,11 @@ const nbcm_views_all = {
     },
 }
 const nbcm_views = {
-    '/dcim/devices/': {
-        'Interfaces': ['interfaces/', 'mdi-dots-vertical'],
-        'Console Ports': ['console-ports/', 'mdi-dots-vertical'],
-        'Power Ports': ['power-ports/', 'mdi-dots-vertical'],
-        'Inventory': ['inventory/', 'mdi-dots-vertical'],
-        'Status': ['status/', 'mdi-dots-vertical'],
+    '/circuits/circuit-terminations/' : {
     },
-    '/dcim/interfaces/': {
+    '/circuits/circuits/' : {
     },
-    '/dcim/racks/': {
-        'Devices': ['/dcim/devices/?rack_id=$id$', 'mdi-dots-vertical'],
-        'Power Feeds': ['/dcim/power-feeds/?rack_id=$id$', 'mdi-dots-vertical'],
+    '/circuits/providers/' : {
     },
     '/dcim/device-types/': {
         'Interfaces': ['interfaces/', 'mdi-dots-vertical'],
@@ -32,6 +25,26 @@ const nbcm_views = {
         'Power Outlets': ['power-outlets/', 'mdi-dots-vertical'],
         'Device Bays': ['device-bays/', 'mdi-dots-vertical'],
     },
+    '/dcim/devices/': {
+        'Interfaces': ['interfaces/', 'mdi-dots-vertical'],
+        'Console Ports': ['console-ports/', 'mdi-dots-vertical'],
+        'Power Ports': ['power-ports/', 'mdi-dots-vertical'],
+        'Inventory': ['inventory/', 'mdi-dots-vertical'],
+        'Status': ['status/', 'mdi-dots-vertical'],
+    },
+    '/dcim/front-ports/': {
+    },
+    '/dcim/interfaces/': {
+    },
+    '/dcim/racks/': {
+        'Devices': ['/dcim/devices/?rack_id=$id$', 'mdi-dots-vertical'],
+        'Power Feeds': ['/dcim/power-feeds/?rack_id=$id$', 'mdi-dots-vertical'],
+    },
+    '/dcim/rear-ports/': {
+    },
+    '/ipam/aggregates/': {
+        'Prefixes': ['/ipam/aggregates/$id$/prefixes', 'mdi-chart-pie'],
+    },
     '/ipam/ip-addresses/': {
         'Parent Prefix': ['/ipam/prefixes/?contains=$obj$', 'mdi-dots-vertical'],
         'SSH': ['ssh://$obj_ip$', 'mdi-monitor-lock'],
@@ -42,19 +55,18 @@ const nbcm_views = {
         'Child IPranges': ['ip-ranges/', 'mdi-barcode'],
         'IP Addresses': ['ip-addresses/', 'mdi-dots-vertical'],
     },
-    '/ipam/aggregates/': {
-        'Prefixes': ['/ipam/aggregates/$id$/prefixes', 'mdi-chart-pie'],
-    },
-    '/ipam/vrfs/': {
-        'Prefixes': ['/ipam/prefixes/?vrf_id=$id$', 'mdi-dots-horizontal'],
+    '/ipam/vlan-groups/': {
+        'VLANs': ['/ipam/vlans/?group_id=$id$', 'mdi-dots-horizontal'],
     },
     '/ipam/vlans/': {
         'Prefixes': ['/ipam/prefixes/?vrf_id=$id$', 'mdi-dots-horizontal'],
         'Device Interfaces': ['interfaces/', 'mdi-chart-pie'],
         'VM Interfaces': ['vm-interfaces/', 'mdi-barcode'],
     },
-    '/ipam/vlan-groups/': {
-        'VLANs': ['/ipam/vlans/?group_id=$id$', 'mdi-dots-horizontal'],
+    '/ipam/vrfs/': {
+        'Prefixes': ['/ipam/prefixes/?vrf_id=$id$', 'mdi-dots-horizontal'],
+    },
+    '/tenancy/tenant-groups/': {
     },
     '/tenancy/tenants/': {
         'VLANs': ['/ipam/vlans/?tenant_id=$id$', 'mdi-dots-horizontal'],
@@ -62,16 +74,14 @@ const nbcm_views = {
         'Devices': ['/dcim/devices/?tenant_id=$id$', 'mdi-dots-horizontal'],
         'VMs': ['/virtualization/virtual-machines/?tenant_id=$id$', 'mdi-dots-horizontal'],
     },
-    '/virtualization/virtual-machines': {
-        'Interfaces': ['interfaces/', 'mdi-chart-pie'],
-        'SSH': ['ssh://$obj$', 'mdi-monitor-lock'],
-        'HTTPS': ['https://$obj$', 'mdi-cloud-lock'],
-    },
     '/virtualization/clusters' : {
         'VMs': ['virtual-machines/', 'mdi-dots-horizontal'],
         'Devices': ['devices/', 'mdi-dots-horizontal'],
     },
-    '/tenancy/tenant-groups/': {
+    '/virtualization/virtual-machines': {
+        'Interfaces': ['interfaces/', 'mdi-chart-pie'],
+        'SSH': ['ssh://$obj$', 'mdi-monitor-lock'],
+        'HTTPS': ['https://$obj$', 'mdi-cloud-lock'],
     },
 };
 
