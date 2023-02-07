@@ -31,6 +31,8 @@ const nbcm_views = {
         'Power Ports': ['power-ports/', 'mdi-dots-vertical'],
         'Inventory': ['inventory/', 'mdi-dots-vertical'],
         'Status': ['status/', 'mdi-dots-vertical'],
+        'SSH': ['ssh://$obj$', 'mdi-monitor-lock', '_blank'],
+        'HTTPS': ['https://$obj$', 'mdi-cloud-lock', '_blank'],
     },
     '/dcim/front-ports/': {
     },
@@ -47,8 +49,8 @@ const nbcm_views = {
     },
     '/ipam/ip-addresses/': {
         'Parent Prefix': ['/ipam/prefixes/?contains=$obj$', 'mdi-dots-vertical'],
-        'SSH': ['ssh://$obj_ip$', 'mdi-monitor-lock'],
-        'HTTPS': ['https://$obj_ip$', 'mdi-cloud-lock'],
+        'SSH': ['ssh://$obj_ip$', 'mdi-monitor-lock', '_blank'],
+        'HTTPS': ['https://$obj_ip$', 'mdi-cloud-lock', '_blank'],
     },
     '/ipam/prefixes/': {
         'Child Prefixes': ['prefixes/', 'mdi-chart-pie'],
@@ -80,8 +82,8 @@ const nbcm_views = {
     },
     '/virtualization/virtual-machines': {
         'Interfaces': ['interfaces/', 'mdi-chart-pie'],
-        'SSH': ['ssh://$obj$', 'mdi-monitor-lock'],
-        'HTTPS': ['https://$obj$', 'mdi-cloud-lock'],
+        'SSH': ['ssh://$obj$', 'mdi-monitor-lock', '_blank'],
+        'HTTPS': ['https://$obj$', 'mdi-cloud-lock', '_blank'],
     },
 };
 
@@ -103,6 +105,7 @@ function nbcmShowbox(e) {
         var id = parts[3];
         var objtext = e.relatedTarget.innerText;
         var nbcmmenu = nbcmboxmenu.getElementsByClassName('nbcm-menu')[0]
+        var urltarget = ''
         nbcmmenu.innerHTML = '';
         for (const view of Object.keys(nbcm_views)) {
             if (urlpath.startsWith(view)) {
@@ -115,6 +118,11 @@ function nbcmShowbox(e) {
                     var newurl = new URL(url);
                     var viewitem = nbcm_view_full[item];
                     var uri = viewitem[0].split('?');
+                    var displayitem = item;
+                    if (viewitem.length>2) {
+                        urltarget = viewitem[2]
+                        displayitem = displayitem + ' <i class="mdi mdi-open-in-new" style="margin-left:0.2em"></i>'
+                    }    
                     if (viewitem[0] == '#copy') {
                         newurl='#" onclick="window.navigator.clipboard.writeText(\''+objtext.replace("'","\\'")+'\')'
                     } else if (viewitem[0].startsWith('/')) {
@@ -130,7 +138,7 @@ function nbcmShowbox(e) {
                             newurl.searchParams.set(vars[0], vars[1].replace('$id$', id).replace('$obj_ip$', objtext.split('/')[0]).replace('$obj$', objtext).replace('$current_url$',current_url));
                         }
                     }
-                    nbcmmenu.innerHTML += '<li class="list-group-item list-group-item-action' + (item == 'Delete' ? ' trash' : '') + '"><a href="' + newurl + '"><i class="mdi ' + viewitem[1] + '"></i> ' + item + '</a></li>';
+                    nbcmmenu.innerHTML += '<li class="list-group-item list-group-item-action' + (item == 'Delete' ? ' trash' : '') + '"><a href="' + newurl + '"' + (urltarget != '' ? ' target="'+urltarget+'"' : '') + '><i class="mdi ' + viewitem[1] + '"></i> ' + displayitem + '</a></li>';
                 }
             }
         }
@@ -250,3 +258,4 @@ if (nbcm_targetNode) {
     const nbcm_observer = new MutationObserver(nbcm_add_burgers);
     nbcm_observer.observe(nbcm_targetNode, nbcm_observerconfig);
 }
+
