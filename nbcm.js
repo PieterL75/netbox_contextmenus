@@ -10,6 +10,7 @@ const nbcm_views_all = {
 }
 const nbcm_views = {
     '/circuits/circuit-terminations/' : {
+        'Trace': ['/dcim/circuit-terminations/$id$/trace/', 'mdi-transit-connection-variant'],
     },
     '/circuits/circuits/' : {
     },
@@ -35,14 +36,17 @@ const nbcm_views = {
         'HTTPS': ['https://$obj$', 'mdi-cloud-lock', '_blank'],
     },
     '/dcim/front-ports/': {
+        'Trace': ['/dcim/front-ports/$id$/trace/', 'mdi-transit-connection-variant'],
     },
     '/dcim/interfaces/': {
+        'Trace': ['/dcim/interfaces/$id$/trace/', 'mdi-transit-connection-variant'],
     },
     '/dcim/racks/': {
         'Devices': ['/dcim/devices/?rack_id=$id$', 'mdi-dots-vertical'],
         'Power Feeds': ['/dcim/power-feeds/?rack_id=$id$', 'mdi-dots-vertical'],
     },
     '/dcim/rear-ports/': {
+        'Trace': ['/dcim/rear-ports/$id$/trace/', 'mdi-transit-connection-variant'],
     },
     '/ipam/aggregates/': {
         'Prefixes': ['/ipam/aggregates/$id$/prefixes', 'mdi-chart-pie'],
