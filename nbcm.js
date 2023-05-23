@@ -40,6 +40,7 @@ const nbcm_views = {
     },
     '/dcim/interfaces/': {
         'Trace': ['/dcim/interfaces/$id$/trace/', 'mdi-transit-connection-variant'],
+        'Add IP': ['/ipam/ip-addresses/add/?interface=$id$', 'mdi-plus-thick'],
     },
     '/dcim/racks/': {
         'Devices': ['/dcim/devices/?rack_id=$id$', 'mdi-dots-vertical'],
