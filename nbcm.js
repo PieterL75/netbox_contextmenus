@@ -16,6 +16,8 @@ const nbcm_views = {
     },
     '/circuits/providers/' : {
     },
+    '/dcim/cables/' : {
+    },
     '/dcim/device-types/': {
         'Interfaces': ['interfaces/', 'mdi-dots-vertical'],
         'Console Ports': ['console-ports/', 'mdi-dots-vertical'],
@@ -111,7 +113,6 @@ function nbcmShowbox(e) {
         var id = parts[3];
         var objtext = e.relatedTarget.innerText;
         var nbcmmenu = nbcmboxmenu.getElementsByClassName('nbcm-menu')[0]
-        var urltarget = ''
         nbcmmenu.innerHTML = '';
         for (const view of Object.keys(nbcm_views)) {
             if (urlpath.startsWith(view)) {
@@ -125,6 +126,7 @@ function nbcmShowbox(e) {
                     var viewitem = nbcm_view_full[item];
                     var uri = viewitem[0].split('?');
                     var displayitem = item;
+                    var urltarget = ''
                     if (viewitem.length>2) {
                         urltarget = viewitem[2]
                         displayitem = displayitem + ' <i class="mdi mdi-open-in-new" style="margin-left:0.2em"></i>'
