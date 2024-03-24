@@ -1,3 +1,6 @@
+const openDelay = 500; // Menu opening delay in milliseconds
+let openTimeout;
+
 const nbcm_views_all = {
     'pre': {
         'View': ['', 'mdi-share'],
@@ -100,14 +103,13 @@ function nbcmHideBox() {
     document.getElementById("nbcmboxmenu").style.display = "none"
 }
 
-function nbcmShowbox(e) {
+function nbcmShowbox(e, urlS, nbcmboxpos) {
     e.preventDefault();
 
     var nbcmboxmenu = document.getElementById("nbcmboxmenu");
     if (nbcmboxmenu) {
         var current_url = window.location.pathname + window.location.search + window.location.hash
-        var url = new URL(e.currentTarget.url)
-        var nbcmboxpos = e.currentTarget.getBoundingClientRect();
+        var url = new URL(urlS, window.location.origin);
         var urlpath = url.pathname;
         var parts = urlpath.split('/');
         var id = parts[3];
@@ -174,7 +176,9 @@ function nbcmShowbox(e) {
 
 function nbcm_add_burgers() {
     'use strict';
-
+    
+    var menuOpenTimeout;
+    
     var css=[
         '.nbcm-box { white-space: nowrap; display: inline-flex; }',
         '.nbcm-icon { padding:.1rem .1rem; margin-left: .2rem; white-space: nowrap; opacity: 20%; }',
@@ -243,11 +247,23 @@ function nbcm_add_burgers() {
                             link.appendChild(frag)
 
                             link.style['white-space'] = 'nowrap';
+                            
+                            nbcmbox.url = link.href;
 
                             nbcmbox.addEventListener('mouseover', function (e) {
-                                nbcmShowbox(e)
+                                var event = e;
+                                var targetUrl = this.url;
+                                var targetBCR = this.getBoundingClientRect()
+                                
+                                clearTimeout(menuOpenTimeout);
+                                menuOpenTimeout = setTimeout(function() {
+                                    nbcmShowbox(event, targetUrl, targetBCR);
+                                }, openDelay);
                             }, false);
-                            nbcmbox.url = link.href;
+                            
+                            nbcmbox.addEventListener('mouseleave', function() {
+                                clearTimeout(menuOpenTimeout);
+                            }, false);
                             break;
                         }
                     }
@@ -266,4 +282,3 @@ if (nbcm_targetNode) {
     const nbcm_observer = new MutationObserver(nbcm_add_burgers);
     nbcm_observer.observe(nbcm_targetNode, nbcm_observerconfig);
 }
-
