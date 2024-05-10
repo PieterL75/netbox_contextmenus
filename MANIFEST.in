@@ -1,0 +1,2 @@
+recursive-include netbox_contextmenus/templates *.html
+recursive-include netbox_contextmenus/static *.js

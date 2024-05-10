@@ -9,9 +9,8 @@ The menu items can easliy be personalised
 
 ## Installation:
 
-- Set the BANNER_BOTTOM in your configuration.py   ```BANNER_BOTTOM = '<script src="/media/scripts/nbcm.js"></script>'```
-- Put this code in /opt/netbox/netbox/media/scripts/nbcm.js
+- install as a any regular plugin.  See  [https://docs.netbox.dev/en/stable/plugins/installation/](https://docs.netbox.dev/en/stable/plugins/installation/)
+- PyPi Packagename is 'netbox-contextmenus'.
+- NetBox packagenam is 'netbox_contextmenus'.
+- Remove (delete, remark) BANNER_BOTTOM from the configuration file. If you need to set a bottom banner, then use the ConfigurationRevisions of NetBox [https://docs.netbox.dev/en/stable/configuration/#dynamic-configuration-parameters](https://docs.netbox.dev/en/stable/configuration/#dynamic-configuration-parameters)
 - restart the netbox service
-
-Not a real 'plugin' in the real sense of the word, as it is not using the plugins feature of Netbox.
-But rather an 'addon' 
