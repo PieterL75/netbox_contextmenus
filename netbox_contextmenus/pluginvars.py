@@ -1,5 +1,5 @@
 __name__ = 'netbox_contextmenus'
-__version__ = '1.4.1'
+__version__ = '1.4.2'
 __description__ = 'Add context menu to links in NetBox'
 __author__ = 'Pieter Lambrecht'
 __author_email__ = 'pieter.lambrecht@gmail.com'

@@ -1,8 +1,13 @@
 import logging
 
 from django_redis.exceptions import ConnectionInterrupted
-from netbox.plugins import PluginConfig
 from redis.exceptions import ConnectionError
+
+from netbox.settings import VERSION
+if VERSION.startswith("3."):
+    from extras.plugins import PluginConfig
+else:
+    from netbox.plugins import PluginConfig
 
 from .pluginvars import (
     __version__,

@@ -2,8 +2,14 @@ from django.db.models.signals import pre_save, post_delete
 from django.dispatch import Signal, receiver
 
 from core.models import ConfigRevision
-from netbox.plugins import get_plugin_config
 from netbox.config import get_config
+from netbox.settings import VERSION
+if VERSION.startswith("3."):
+    from extras.plugins import get_plugin_config
+else:
+    from netbox.plugins import get_plugin_config
+
+
 
 @receiver(pre_save, sender=ConfigRevision)
 def update_configrevision(sender, instance, **kwargs):
