@@ -1,4 +1,5 @@
-const nbcm_views_all = {
+const nbcm_opendelay = 300; // Menu opening delay in milliseconds
+const nbcm_views_all = {    // Menu items shown on all models
     'pre': {
         'View': ['', 'mdi-share'],
         'Edit': ['edit/?return_url=$current_url$', 'mdi-pencil'],
@@ -8,7 +9,7 @@ const nbcm_views_all = {
         'Delete': ['delete/?return_url=$current_url$', 'mdi-delete'],
     },
 }
-const nbcm_views = {
+const nbcm_views = {        // Menu items per model. The model has to be present to get the defaults.
     '/circuits/circuit-terminations/' : {
         'Trace': ['/dcim/circuit-terminations/$id$/trace/', 'mdi-transit-connection-variant'],
     },
@@ -100,18 +101,18 @@ function nbcmHideBox() {
     document.getElementById("nbcmboxmenu").style.display = "none"
 }
 
-function nbcmShowbox(e) {
-    e.preventDefault();
+function nbcmShowbox(currentTarget, relatedTarget) {
+    //e.preventDefault();
 
     var nbcmboxmenu = document.getElementById("nbcmboxmenu");
     if (nbcmboxmenu) {
         var current_url = window.location.pathname + window.location.search + window.location.hash
-        var url = new URL(e.currentTarget.url)
-        var nbcmboxpos = e.currentTarget.getBoundingClientRect();
+        var url = new URL(currentTarget.url)
+        var nbcmboxpos = currentTarget.getBoundingClientRect();
         var urlpath = url.pathname;
         var parts = urlpath.split('/');
         var id = parts[3];
-        var objtext = e.relatedTarget.innerText;
+        var objtext = relatedTarget.innerText;
         var nbcmmenu = nbcmboxmenu.getElementsByClassName('nbcm-menu')[0]
         nbcmmenu.innerHTML = '';
         for (const view of Object.keys(nbcm_views)) {
@@ -175,9 +176,11 @@ function nbcmShowbox(e) {
 function nbcm_add_burgers() {
     'use strict';
 
+    var nbcmopentimeout;
+
     var css=[
         '.nbcm-box { white-space: nowrap; display: inline-flex; }',
-        '.nbcm-icon { padding:.1rem .1rem; margin-left: .2rem; white-space: nowrap; opacity: 20%; }',
+        '.nbcm-icon { padding:.1rem .1rem; margin-left: .2rem; white-space: nowrap; opacity: 20%; line-height: 0 !important; }',
         '.nbcm-icon:hover { opacity: 80%; }',
         '.nbcm-context-menu { position: absolute !important; padding:2px; }',
         '.nbcm-menu { margin: 0; list-style: none; display: flex;  flex-direction: column; padding: 5px 0; }',
@@ -202,6 +205,7 @@ function nbcm_add_burgers() {
     nbcmboxmenuul.className="list-group nbcm-menu";
     document.body.appendChild(nbcmboxmenu);
     nbcmboxmenu.addEventListener('mouseleave', function (e) {
+        clearTimeout(nbcmopentimeout);
         nbcmHideBox(e)
     }, false);
 
@@ -245,8 +249,19 @@ function nbcm_add_burgers() {
                             link.style['white-space'] = 'nowrap';
 
                             nbcmbox.addEventListener('mouseover', function (e) {
-                                nbcmShowbox(e)
+                                var currentTarget = e.currentTarget;
+                                var relatedTarget = e.relatedTarget;
+
+                                clearTimeout(nbcmopentimeout);
+                                nbcmopentimeout = setTimeout(function() {
+                                    nbcmShowbox(currentTarget, relatedTarget)
+                                }, nbcm_opendelay);
                             }, false);
+                            
+                            nbcmbox.addEventListener('mouseleave', function (e) {
+                                clearTimeout(nbcmopentimeout);
+                            }, false);
+                        
                             nbcmbox.url = link.href;
                             break;
                         }
