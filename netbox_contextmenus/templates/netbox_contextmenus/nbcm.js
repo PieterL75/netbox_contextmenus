@@ -159,18 +159,22 @@ function nbcmShowbox(currentTarget, relatedTarget) {
         var menuHeight = nbcmboxmenu.offsetHeight + 8;
         var windowWidth = window.innerWidth;
         var windowHeight = window.innerHeight;
+        var nbcmboxmenuleft = window.scrollX + (nbcmboxpos.width * -0.05)
+        var nbcmboxmenutop = window.scrollY;
 
         if ((windowWidth - nbcmboxpos.x) < menuWidth) {
-            nbcmboxmenu.style.left = windowWidth - menuWidth + (nbcmboxpos.width * -0.05) + "px";
+            nbcmboxmenuleft += windowWidth - menuWidth;
         } else {
-            nbcmboxmenu.style.left = nbcmboxpos.x + (nbcmboxpos.width * -0.05) + "px";
+            nbcmboxmenuleft += nbcmboxpos.x;
         }
+        nbcmboxmenu.style.left = nbcmboxmenuleft + "px";
 
         if ((windowHeight - nbcmboxpos.y) < menuHeight) {
-            nbcmboxmenu.style.top = windowHeight - menuHeight - 5 + "px";
+            nbcmboxmenutop += windowHeight - menuHeight - 5;
         } else {
-            nbcmboxmenu.style.top = nbcmboxpos.y - 5 + "px";
+            nbcmboxmenutop += nbcmboxpos.y - 5;
         }
+        nbcmboxmenu.style.top = nbcmboxmenutop + "px";
     }
 }
 
