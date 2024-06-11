@@ -1,13 +1,8 @@
-import logging
-
-from django_redis.exceptions import ConnectionInterrupted
-from redis.exceptions import ConnectionError
-
-from netbox.settings import VERSION
+from netbox.settings import VERSION # type: ignore
 if VERSION.startswith("3."):
-    from extras.plugins import PluginConfig
+    from extras.plugins import PluginConfig # type: ignore
 else:
-    from netbox.plugins import PluginConfig
+    from netbox.plugins import PluginConfig # type: ignore
 
 from .pluginvars import (
     __version__,
@@ -27,43 +22,10 @@ class NetboxContextMenusConfig(PluginConfig):
     author_email = __author_email__
     required_settings = []
     default_settings = {
-        "nbcmjs": '<script src="/static/netbox_contextmenus/nbcm.js"></script>'
+        'nbcmjspath': '/plugins/netbox_contextmenus/nbcmrender/',
+        'nbcmopendelay': 150
     }
     baseurl = "netbox_contextmenus"
-
-    def ready(self):
-        try:
-            import netbox_contextmenus.signals
-
-            super().ready()
-
-            from core.models import ConfigRevision
-            from netbox.config import get_config
-            from django.core.cache import cache
-
-            NBCM_JS = self.default_settings["nbcmjs"]
-
-            cache.clear()
-            nb_config = get_config()
-            nb_config._populate_from_db()
-            ConfigRevisions = ConfigRevision.objects.all()
-            if not ConfigRevisions:
-                DefaultConfigRevisionParams = get_config().config
-                ConfigRevisionItem = ConfigRevision.objects.create(
-                    data=DefaultConfigRevisionParams
-                )
-                ConfigRevisionItem.save()
-            else:
-                for ConfigRevisionItem in ConfigRevisions:
-                    if ConfigRevisionItem.is_active:
-                        if NBCM_JS not in getattr(
-                            ConfigRevisionItem, "BANNER_BOTTOM", ""
-                        ):
-                            ConfigRevisionItem.save()
-        except (ConnectionInterrupted, ConnectionError) as e:
-            logger = logging.getLogger("netbox.netbox_contextmenus")
-            logger.error("Redis connection is not ready")
-            logger.debug(e)
-
+    middleware = ["netbox_contextmenus.middleware.ContextMenusMiddleware"]
 
 config = NetboxContextMenusConfig

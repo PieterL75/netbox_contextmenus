@@ -1,4 +1,4 @@
-const nbcm_opendelay = 300; // Menu opening delay in milliseconds
+const nbcm_opendelay = {{ opendelay }}; // Menu opening delay in milliseconds
 const nbcm_views_all = {    // Menu items shown on all models
     'pre': {
         'View': ['', 'mdi-share'],
@@ -96,6 +96,7 @@ const nbcm_views = {        // Menu items per model. The model has to be present
     },
 };
 
+var nbcmopentimeout;
 
 function nbcmHideBox() {
     document.getElementById("nbcmboxmenu").style.display = "none"
@@ -176,8 +177,6 @@ function nbcmShowbox(currentTarget, relatedTarget) {
 function nbcm_add_burgers() {
     'use strict';
 
-    var nbcmopentimeout;
-
     var css=[
         '.nbcm-box { white-space: nowrap; display: inline-flex; }',
         '.nbcm-icon { padding:.1rem .1rem; margin-left: .2rem; white-space: nowrap; opacity: 20%; line-height: 0 !important; }',
@@ -192,7 +191,7 @@ function nbcm_add_burgers() {
     var head = document.getElementsByTagName('head')[0];
     if (head) {
         var style = document.createElement('style');
-        style.type = 'text/css';
+        //style.type = 'text/css';
         style.appendChild(document.createTextNode(css.join("\r\n")));
         head.appendChild(style);
     }
@@ -205,7 +204,7 @@ function nbcm_add_burgers() {
     nbcmboxmenuul.className="list-group nbcm-menu";
     document.body.appendChild(nbcmboxmenu);
     nbcmboxmenu.addEventListener('mouseleave', function (e) {
-        clearTimeout(nbcmopentimeout);
+        clearTimeout(globalThis.nbcmopentimeout);
         nbcmHideBox(e)
     }, false);
 
@@ -252,14 +251,14 @@ function nbcm_add_burgers() {
                                 var currentTarget = e.currentTarget;
                                 var relatedTarget = e.relatedTarget;
 
-                                clearTimeout(nbcmopentimeout);
-                                nbcmopentimeout = setTimeout(function() {
+                                clearTimeout(globalThis.nbcmopentimeout);
+                                globalThis.nbcmopentimeout = setTimeout(function() {
                                     nbcmShowbox(currentTarget, relatedTarget)
                                 }, nbcm_opendelay);
                             }, false);
                             
                             nbcmbox.addEventListener('mouseleave', function (e) {
-                                clearTimeout(nbcmopentimeout);
+                                clearTimeout(globalThis.nbcmopentimeout);
                             }, false);
                         
                             nbcmbox.url = link.href;
