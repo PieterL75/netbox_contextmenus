@@ -23,12 +23,13 @@ class ContextMenusMiddleware:
             return response
 
         NBCM_JS = '<script src="'+NBCM_JSPATH+'" defer></script>'
-        content = str(response.content)
-        if not NBCM_JS in content:            
-            response.content=re.sub(
-                    b'</head>',
-                    bytes(NBCM_JS, response.charset) + b'\n  </head>',
-                    response.content,
-                    flags=re.IGNORECASE
-                )
+        if hasattr(response,'content'):
+            content = str(response.content)
+            if not NBCM_JS in content:            
+                response.content=re.sub(
+                        b'</head>',
+                        bytes(NBCM_JS, response.charset) + b'\n  </head>',
+                        response.content,
+                        flags=re.IGNORECASE
+                    )
         return response
