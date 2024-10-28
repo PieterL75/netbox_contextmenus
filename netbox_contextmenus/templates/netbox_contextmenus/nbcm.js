@@ -34,7 +34,6 @@ const nbcm_views = {        // Menu items per model. The model has to be present
         'Console Ports': ['console-ports/', 'mdi-dots-vertical'],
         'Power Ports': ['power-ports/', 'mdi-dots-vertical'],
         'Inventory': ['inventory/', 'mdi-dots-vertical'],
-        'Status': ['status/', 'mdi-dots-vertical'],
         'SSH': ['ssh://$obj$', 'mdi-monitor-lock', '_blank'],
         'HTTPS': ['https://$obj$', 'mdi-cloud-lock', '_blank'],
     },
