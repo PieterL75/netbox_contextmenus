@@ -10,14 +10,38 @@ const nbcm_views_all = {    // Menu items shown on all models
     },
 }
 const nbcm_views = {        // Menu items per model. The model has to be present to get the defaults.
+    '/circuits/circuit-group-assignments/' : {
+    },
+    '/circuits/circuit-groups/' : {
+    },
     '/circuits/circuit-terminations/' : {
         'Trace': ['/dcim/circuit-terminations/$id$/trace/', 'mdi-transit-connection-variant'],
     },
+    '/circuits/circuit-types/' : {
+    },
     '/circuits/circuits/' : {
+    },
+    '/circuits/provider-accounts/' : {
+    },
+    '/circuits/provider-networks/' : {
     },
     '/circuits/providers/' : {
     },
+    '/circuits/virtual-circuit-terminations/' : {
+    },
+    '/circuits/virtual-circuit-types/' : {
+    },
+    '/circuits/virtual-circuits/' : {
+    },
     '/dcim/cables/' : {
+    },
+    '/dcim/console-connections/': {
+    },
+    '/dcim/console-ports/': {
+    },
+    '/dcim/console-server-ports/': {
+    },
+    '/dcim/device-bays/': {
     },
     '/dcim/device-types/': {
         'Interfaces': ['interfaces/', 'mdi-dots-vertical'],
@@ -38,12 +62,50 @@ const nbcm_views = {        // Menu items per model. The model has to be present
         'HTTPS': ['https://$obj$', 'mdi-cloud-lock', '_blank'],
     },
     '/dcim/front-ports/': {
-        'Trace': ['/dcim/front-ports/$id$/trace/', 'mdi-transit-connection-variant'],
+        'Trace': ['/dcim/front-ports/$id$/trace/', 'mdi-fit-connection-variant'],
+    },
+    '/dcim/interface-connections/': {
     },
     '/dcim/interfaces/': {
         'Trace': ['/dcim/interfaces/$id$/trace/', 'mdi-transit-connection-variant'],
         'Create IP': ['/ipam/ip-addresses/add/?interface=$id$', 'mdi-plus-thick'],
         'Assign IP': ['/ipam/ip-addresses/assign/?interface=$id$', 'mdi-plus-thick'],
+    },
+    '/dcim/inventory-item-roles/': {
+    },
+    '/dcim/inventory-items/': {
+    },
+    '/dcim/locations/': {
+    },
+    '/dcim/mac-addresses/': {
+    },
+    '/dcim/manufacturers/': {
+    },
+    '/dcim/module-type-profiles/': {
+    },
+    '/dcim/module-types/': {
+    },
+    '/dcim/module-bays/': {
+    },
+    '/dcim/modules/': {
+    },
+    '/dcim/platforms/': {
+    },
+    '/dcim/power-connections/': {
+    },
+    '/dcim/power-feeds/': {
+    },
+    '/dcim/power-outlets/': {
+    },
+    '/dcim/power-panels/': {
+    },
+    '/dcim/power-ports/': {
+    },
+    '/dcim/rack-reservations/': {
+    },
+    '/dcim/rack-roles/': {
+    },
+    '/dcim/rack-types/': {
     },
     '/dcim/racks/': {
         'Devices': ['/dcim/devices/?rack_id=$id$', 'mdi-dots-vertical'],
@@ -52,21 +114,53 @@ const nbcm_views = {        // Menu items per model. The model has to be present
     '/dcim/rear-ports/': {
         'Trace': ['/dcim/rear-ports/$id$/trace/', 'mdi-transit-connection-variant'],
     },
+    '/dcim/regions/': {
+    },
+    '/dcim/sites/': {
+    },
+    '/dcim/site-groups/': {
+    },
+    '/dcim/virtual-chassis/': {
+    },
+    '/dcim/virtual-device-contexts/': {
+    },
     '/ipam/aggregates/': {
         'Prefixes': ['/ipam/aggregates/$id$/prefixes', 'mdi-chart-pie'],
+    },
+    '/ipam/asn-ranges/': {
+    },
+    '/ipam/asns/': {
+    },
+    '/ipam/fhrp-groups/': {
     },
     '/ipam/ip-addresses/': {
         'Parent Prefix': ['/ipam/prefixes/?contains=$obj$', 'mdi-dots-vertical'],
         'SSH': ['ssh://$obj_ip$', 'mdi-monitor-lock', '_blank'],
         'HTTPS': ['https://$obj_ip$', 'mdi-cloud-lock', '_blank'],
     },
+    '/ipam/ip-ranges/': {
+    },
     '/ipam/prefixes/': {
         'Child Prefixes': ['prefixes/', 'mdi-chart-pie'],
         'Child IPranges': ['ip-ranges/', 'mdi-barcode'],
         'IP Addresses': ['ip-addresses/', 'mdi-dots-vertical'],
     },
+    '/ipam/rirs/': {
+    },
+    '/ipam/roles/': {
+    },
+    '/ipam/route-targets/': {
+    },
+    '/ipam/service-templates/': {
+    },
+    '/ipam/services/': {
+    },
     '/ipam/vlan-groups/': {
         'VLANs': ['/ipam/vlans/?group_id=$id$', 'mdi-dots-horizontal'],
+    },
+    '/ipam/vlan-translation-policies/': {
+    },
+    '/ipam/vlan-translation-rules/': {
     },
     '/ipam/vlans/': {
         'Prefixes': ['/ipam/prefixes/?vrf_id=$id$', 'mdi-dots-horizontal'],
@@ -76,6 +170,14 @@ const nbcm_views = {        // Menu items per model. The model has to be present
     '/ipam/vrfs/': {
         'Prefixes': ['/ipam/prefixes/?vrf_id=$id$', 'mdi-dots-horizontal'],
     },
+    '/tenancy/contact-assignments/': {
+    },
+    '/tenancy/contact-groups/': {
+    },
+    '/tenancy/contact-roles/': {
+    },
+    '/tenancy/contacts/': {
+    },
     '/tenancy/tenant-groups/': {
     },
     '/tenancy/tenants/': {
@@ -84,18 +186,70 @@ const nbcm_views = {        // Menu items per model. The model has to be present
         'Devices': ['/dcim/devices/?tenant_id=$id$', 'mdi-dots-horizontal'],
         'VMs': ['/virtualization/virtual-machines/?tenant_id=$id$', 'mdi-dots-horizontal'],
     },
+    '/virtualization/cluster-groups/': {
+    },
+    '/virtualization/cluster-types/': {
+    },
     '/virtualization/clusters' : {
         'VMs': ['virtual-machines/', 'mdi-dots-horizontal'],
         'Devices': ['devices/', 'mdi-dots-horizontal'],
+    },
+    '/virtualization/interfaces/': {
+    },
+    '/virtualization/virtual-disks/': {
     },
     '/virtualization/virtual-machines': {
         'Interfaces': ['interfaces/', 'mdi-chart-pie'],
         'SSH': ['ssh://$obj$', 'mdi-monitor-lock', '_blank'],
         'HTTPS': ['https://$obj$', 'mdi-cloud-lock', '_blank'],
     },
+    '/vpn/ike-policies/': {
+    },
+    '/vpn/ike-proposals/': {
+    },
+    '/vpn/ipsec-policies/': {
+    },
+    '/vpn/ipsec-profiles/': {
+    },
+    '/vpn/ipsec-proposals/': {
+    },
+    '/vpn/l2vpn-terminations/': {
+    },
+    '/vpn/l2vpns/': {
+    },
+    '/vpn/tunnel-groups/': {
+    },
+    '/vpn/tunnel-terminations/': {
+    },
+    '/vpn/tunnels/': {
+    },
+    '/wireless/wireless-lan-groups/': {
+    },
+    '/wireless/wireless-lans/': {
+    },
+    '/wireless/wireless-links/': {
+    },
 };
 
 var nbcmopentimeout;
+
+function nbcmUpdateItem(view, item, id, return_url) {
+    let url = '/api' + view + id + '/';
+
+// PATCH requires a TOKEN... bah.. stupid.. looking for another way to do PATCH with session cookies
+    fetch(url, {
+        method: 'PATCH',
+        credentials: 'same-origin',
+        headers: {
+            'Cookie': 'csrftoken='+window.CSRF_TOKEN
+        },
+        body: JSON.stringify(nbcm_views[view][item][2])
+    })
+    .catch(error => console.log(error));
+    
+    location.reload();
+    return false;
+}
 
 function nbcmHideBox() {
     document.getElementById("nbcmboxmenu").style.display = "none"
@@ -131,7 +285,7 @@ function nbcmShowbox(currentTarget, relatedTarget) {
                     if (viewitem.length>2) {
                         urltarget = viewitem[2]
                         displayitem = displayitem + ' <i class="mdi mdi-open-in-new" style="margin-left:0.2em"></i>'
-                    }    
+                    }
                     if (viewitem[0] == '#copy') {
                         newurl='#" onclick="window.navigator.clipboard.writeText(\''+objtext.replace("'","\\'")+'\')'
                     } else if (viewitem[0].startsWith('/')) {
