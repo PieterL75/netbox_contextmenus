@@ -1,9 +1,9 @@
 const nbcm_opendelay = {{ opendelay }}; // Menu opening delay in milliseconds
 const nbcm_views_all = {    // Menu items shown on all models
     'pre': {
-        'View': ['', 'mdi-share'],
         'Edit': ['edit/?return_url=$current_url$', 'mdi-pencil'],
-        'To Clipboard': ['#copy', 'mdi-content-copy']
+        'To Clipboard': ['#copy', 'mdi-content-copy'],
+        'View': ['', 'mdi-share'],
     },
     'post': {
         'Delete': ['delete/?return_url=$current_url$', 'mdi-delete'],
@@ -42,6 +42,8 @@ const nbcm_views = {        // Menu items per model. The model has to be present
     '/dcim/console-server-ports/': {
     },
     '/dcim/device-bays/': {
+    },
+    '/dcim/device-roles/': {
     },
     '/dcim/device-types/': {
         'Interfaces': ['interfaces/', 'mdi-dots-vertical'],
