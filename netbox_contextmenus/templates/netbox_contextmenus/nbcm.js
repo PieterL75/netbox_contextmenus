@@ -259,6 +259,7 @@ function nbcmHideBox() {
 
 function nbcmShowbox(currentTarget, relatedTarget) {
     //e.preventDefault();
+    if (relatedTarget.innerText == '') return; // mouse moved from the menu to the menu (ignore)
 
     var nbcmboxmenu = document.getElementById("nbcmboxmenu");
     if (nbcmboxmenu) {
@@ -293,6 +294,7 @@ function nbcmShowbox(currentTarget, relatedTarget) {
                     } else if (viewitem[0].startsWith('/')) {
                         newurl.pathname = uri[0].replace('$id$', id).replace('$obj_ip$', objtext.split('/')[0]).replace('$obj$', objtext).replace('$current_url$',current_url);
                     } else if (viewitem[0].includes('://')) {
+                        if ((objtext.length==0) || (objtext.search(/^\d+$/)==0 && uri[0].search(/\$obj\$/)>=0)) continue; // skip viewitem with links, if the objtext is numbers only, and the objtext is part of the uri[0]
                         newurl = uri[0].replace('$id$', id).replace('$obj_ip$', objtext.split('/')[0]).replace('$obj$', objtext).replace('$current_url$',current_url);
                     } else {
                         newurl.pathname += uri[0];
@@ -409,6 +411,7 @@ function nbcm_add_burgers() {
                             nbcmbox.addEventListener('mouseover', function (e) {
                                 var currentTarget = e.currentTarget;
                                 var relatedTarget = e.relatedTarget;
+                                var fromElement   = e.fromElement;
 
                                 clearTimeout(globalThis.nbcmopentimeout);
                                 globalThis.nbcmopentimeout = setTimeout(function() {
