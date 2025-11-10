@@ -397,7 +397,7 @@ function nbcm_add_burgers() {
                             var frag = document.createDocumentFragment()
                             var nbcmbox = frag.appendChild(document.createElement("span"));
                             nbcmbox.id = "nbcmbox";
-                            nbcmbox.className = "btn btn-sm nbcm-icon";
+                            nbcmbox.className = "nbcm-box btn btn-sm nbcm-icon";
                             nbcmbox.title = "Actions";
                             var nbcmboxi=nbcmbox.appendChild(document.createElement("i"));
                             nbcmboxi.className="mdi mdi-menu";
