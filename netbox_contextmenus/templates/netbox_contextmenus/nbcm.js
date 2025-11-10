@@ -259,7 +259,7 @@ function nbcmHideBox() {
 
 function nbcmShowbox(currentTarget, relatedTarget) {
     //e.preventDefault();
-    if (relatedTarget.innerText == '') return; // mouse moved from the menu to the menu (ignore)
+    // if (relatedTarget.innerText == '') return; // mouse moved from the menu to the menu (ignore)
 
     var nbcmboxmenu = document.getElementById("nbcmboxmenu");
     if (nbcmboxmenu) {
@@ -395,14 +395,12 @@ function nbcm_add_burgers() {
                             // only add the menuicon to links that:
                             //  - start with the nbcm_views key
                             var frag = document.createDocumentFragment()
-                            var nbcmbox = frag.appendChild(document.createElement("div"));
-                            nbcmbox.className = "nbcm-box";
-                            var nbcmspan = nbcmbox.appendChild(document.createElement("span"));
-                            nbcmspan.id = "nbcmbox";
-                            nbcmspan.className = "btn btn-sm nbcm-icon";
-                            nbcmspan.title = "Actions";
-                            var nbcmspani=nbcmspan.appendChild(document.createElement("i"));
-                            nbcmspani.className="mdi mdi-menu";
+                            var nbcmbox = frag.appendChild(document.createElement("span"));
+                            nbcmbox.id = "nbcmbox";
+                            nbcmbox.className = "btn btn-sm nbcm-icon";
+                            nbcmbox.title = "Actions";
+                            var nbcmboxi=nbcmbox.appendChild(document.createElement("i"));
+                            nbcmboxi.className="mdi mdi-menu";
                             
                             link.appendChild(frag)
 
