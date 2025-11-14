@@ -363,6 +363,29 @@ function nbcmDoPost(view, item, id, itemdata, return_url) {
     form.submit();
 }
 
+
+import { isTruthy, apiPatch, hasError, getElements } from '/src/util';
+
+function setConnectionStatus(element: HTMLButtonElement, status: string): void {
+  // Get the button's row to change its data-cable-status attribute
+  const row = element.parentElement?.parentElement as HTMLTableRowElement;
+  const url = element.getAttribute('data-url');
+
+  if (isTruthy(url)) {
+    apiPatch(url, { status }).then(res => {
+      if (hasError(res)) {
+        // If the API responds with an error, show it to the user.
+        createToast('danger', 'Error', res.error).show();
+        return;
+      } else {
+        // Update cable status in DOM
+        row.setAttribute('data-cable-status', status);
+      }
+    });
+  }
+}
+
+
 function nbcmHideBox() {
     document.getElementById("nbcmboxmenu").style.display = "none"
 }
