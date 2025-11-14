@@ -1,9 +1,9 @@
 const nbcm_opendelay = {{ opendelay }}; // Menu opening delay in milliseconds
 const nbcm_views_all = {    // Menu items shown on all models
     'pre': {
-        'View': ['', 'mdi-share'],
         'Edit': ['edit/?return_url=$current_url$', 'mdi-pencil'],
-        'To Clipboard': ['#copy', 'mdi-content-copy']
+        'To Clipboard': ['#copy', 'mdi-content-copy'],
+        'View': ['', 'mdi-share'],
     },
     'post': {
         'Delete': ['delete/?return_url=$current_url$', 'mdi-delete'],
@@ -43,6 +43,8 @@ const nbcm_views = {        // Menu items per model. The model has to be present
     },
     '/dcim/device-bays/': {
     },
+    '/dcim/device-roles/': {
+    },
     '/dcim/device-types/': {
         'Interfaces': ['interfaces/', 'mdi-dots-vertical'],
         'Console Ports': ['console-ports/', 'mdi-dots-vertical'],
@@ -72,6 +74,78 @@ const nbcm_views = {        // Menu items per model. The model has to be present
         'Assign IP': ['/ipam/ip-addresses/assign/?interface=$id$', 'mdi-plus-thick'],
         'Enable': ['#POST#', 'mdi-plus-thick', { 'enabled': true }],
         'Disable': ['#POST#', 'mdi-plus-thick', { 'enabled': false }],
+    },
+    '/dcim/inventory-item-roles/': {
+    },
+    '/dcim/inventory-items/': {
+    },
+    '/dcim/locations/': {
+    },
+    '/dcim/mac-addresses/': {
+    },
+    '/dcim/manufacturers/': {
+    },
+    '/dcim/module-type-profiles/': {
+    },
+    '/dcim/module-types/': {
+    },
+    '/dcim/module-bays/': {
+    },
+    '/dcim/modules/': {
+    },
+    '/dcim/platforms/': {
+    },
+    '/dcim/power-connections/': {
+    },
+    '/dcim/power-feeds/': {
+    },
+    '/dcim/power-outlets/': {
+    },
+    '/dcim/power-panels/': {
+    },
+    '/dcim/power-ports/': {
+    },
+    '/dcim/rack-reservations/': {
+    },
+    '/dcim/rack-roles/': {
+    },
+    '/dcim/rack-types/': {
+    },
+    '/dcim/inventory-item-roles/': {
+    },
+    '/dcim/inventory-items/': {
+    },
+    '/dcim/locations/': {
+    },
+    '/dcim/mac-addresses/': {
+    },
+    '/dcim/manufacturers/': {
+    },
+    '/dcim/module-type-profiles/': {
+    },
+    '/dcim/module-types/': {
+    },
+    '/dcim/module-bays/': {
+    },
+    '/dcim/modules/': {
+    },
+    '/dcim/platforms/': {
+    },
+    '/dcim/power-connections/': {
+    },
+    '/dcim/power-feeds/': {
+    },
+    '/dcim/power-outlets/': {
+    },
+    '/dcim/power-panels/': {
+    },
+    '/dcim/power-ports/': {
+    },
+    '/dcim/rack-reservations/': {
+    },
+    '/dcim/rack-roles/': {
+    },
+    '/dcim/rack-types/': {
     },
     '/dcim/inventory-item-roles/': {
     },
@@ -295,6 +369,7 @@ function nbcmHideBox() {
 
 function nbcmShowbox(currentTarget, relatedTarget) {
     //e.preventDefault();
+    // if (relatedTarget.innerText == '') return; // mouse moved from the menu to the menu (ignore)
 
     var nbcmboxmenu = document.getElementById("nbcmboxmenu");
     if (nbcmboxmenu) {
@@ -333,6 +408,7 @@ function nbcmShowbox(currentTarget, relatedTarget) {
                     } else if (viewitem[0].startsWith('/')) {
                         newurl.pathname = uri[0].replace('$id$', id).replace('$obj_ip$', objtext.split('/')[0]).replace('$obj$', objtext).replace('$current_url$',current_url);
                     } else if (viewitem[0].includes('://')) {
+                        if ((objtext.length==0) || (objtext.search(/^\d+$/)==0 && uri[0].search(/\$obj\$/)>=0)) continue; // skip viewitem with links, if the objtext is numbers only, and the objtext is part of the uri[0]
                         newurl = uri[0].replace('$id$', id).replace('$obj_ip$', objtext.split('/')[0]).replace('$obj$', objtext).replace('$current_url$',current_url);
                     } else {
                         newurl.pathname += uri[0];
@@ -433,14 +509,12 @@ function nbcm_add_burgers() {
                             // only add the menuicon to links that:
                             //  - start with the nbcm_views key
                             var frag = document.createDocumentFragment()
-                            var nbcmbox = frag.appendChild(document.createElement("div"));
-                            nbcmbox.className = "nbcm-box";
-                            var nbcmspan = nbcmbox.appendChild(document.createElement("span"));
-                            nbcmspan.id = "nbcmbox";
-                            nbcmspan.className = "btn btn-sm nbcm-icon";
-                            nbcmspan.title = "Actions";
-                            var nbcmspani=nbcmspan.appendChild(document.createElement("i"));
-                            nbcmspani.className="mdi mdi-menu";
+                            var nbcmbox = frag.appendChild(document.createElement("span"));
+                            nbcmbox.id = "nbcmbox";
+                            nbcmbox.className = "nbcm-box btn btn-sm nbcm-icon";
+                            nbcmbox.title = "Actions";
+                            var nbcmboxi=nbcmbox.appendChild(document.createElement("i"));
+                            nbcmboxi.className="mdi mdi-menu";
                             
                             link.appendChild(frag)
 
@@ -449,6 +523,7 @@ function nbcm_add_burgers() {
                             nbcmbox.addEventListener('mouseover', function (e) {
                                 var currentTarget = e.currentTarget;
                                 var relatedTarget = e.relatedTarget;
+                                var fromElement   = e.fromElement;
 
                                 clearTimeout(globalThis.nbcmopentimeout);
                                 globalThis.nbcmopentimeout = setTimeout(function() {
