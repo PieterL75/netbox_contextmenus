@@ -72,6 +72,84 @@ const nbcm_views = {        // Menu items per model. The model has to be present
         'Trace': ['/dcim/interfaces/$id$/trace/', 'mdi-transit-connection-variant'],
         'Create IP': ['/ipam/ip-addresses/add/?interface=$id$', 'mdi-plus-thick'],
         'Assign IP': ['/ipam/ip-addresses/assign/?interface=$id$', 'mdi-plus-thick'],
+        'Enable': ['#PATCH#', 'mdi-plus-circle-outline', { 'enabled': true }],
+        'Disable': ['#PATCH#', 'mdi-minus-circle-outline', { 'enabled': false }],
+        'Connect to Interface': ['/dcim/cables/add/?a_terminations_type=dcim.interface&a_terminations=$id$&b_terminations_type=dcim.interface&return_url=/dcim/interfaces/$id$/', 'mdi-connection'],
+        'Connect to FrontPort': ['/dcim/cables/add/?a_terminations_type=dcim.interface&a_terminations=$id$&b_terminations_type=dcim.frontport&return_url=/dcim/interfaces/$id$/', 'mdi-connection'],
+        'Connect to RearPort': ['/dcim/cables/add/?a_terminations_type=dcim.interface&a_terminations=$id$&b_terminations_type=dcim.rearport&return_url=/dcim/interfaces/$id$/', 'mdi-connection'],
+        'Connect to Circuit': ['/dcim/cables/add/?a_terminations_type=dcim.interface&a_terminations=$id$&b_terminations_type=circuits.circuittermination&return_url=/dcim/interfaces/$id$/', 'mdi-connection'],
+    },
+    '/dcim/inventory-item-roles/': {
+    },
+    '/dcim/inventory-items/': {
+    },
+    '/dcim/locations/': {
+    },
+    '/dcim/mac-addresses/': {
+    },
+    '/dcim/manufacturers/': {
+    },
+    '/dcim/module-type-profiles/': {
+    },
+    '/dcim/module-types/': {
+    },
+    '/dcim/module-bays/': {
+    },
+    '/dcim/modules/': {
+    },
+    '/dcim/platforms/': {
+    },
+    '/dcim/power-connections/': {
+    },
+    '/dcim/power-feeds/': {
+    },
+    '/dcim/power-outlets/': {
+    },
+    '/dcim/power-panels/': {
+    },
+    '/dcim/power-ports/': {
+    },
+    '/dcim/rack-reservations/': {
+    },
+    '/dcim/rack-roles/': {
+    },
+    '/dcim/rack-types/': {
+    },
+    '/dcim/inventory-item-roles/': {
+    },
+    '/dcim/inventory-items/': {
+    },
+    '/dcim/locations/': {
+    },
+    '/dcim/mac-addresses/': {
+    },
+    '/dcim/manufacturers/': {
+    },
+    '/dcim/module-type-profiles/': {
+    },
+    '/dcim/module-types/': {
+    },
+    '/dcim/module-bays/': {
+    },
+    '/dcim/modules/': {
+    },
+    '/dcim/platforms/': {
+    },
+    '/dcim/power-connections/': {
+    },
+    '/dcim/power-feeds/': {
+    },
+    '/dcim/power-outlets/': {
+    },
+    '/dcim/power-panels/': {
+    },
+    '/dcim/power-ports/': {
+    },
+    '/dcim/rack-reservations/': {
+    },
+    '/dcim/rack-roles/': {
+    },
+    '/dcim/rack-types/': {
     },
     '/dcim/inventory-item-roles/': {
     },
@@ -235,20 +313,29 @@ const nbcm_views = {        // Menu items per model. The model has to be present
 
 var nbcmopentimeout;
 
-function nbcmUpdateItem(view, item, id, return_url) {
-    let url = '/api' + view + id + '/';
+async function nbcmUpdateItem(element, view, item, id, return_url) {
+    const url = '/api' + view + id + '/';
+    const token = window.CSRF_TOKEN;
 
-// PATCH requires a TOKEN... bah.. stupid.. looking for another way to do PATCH with session cookies
-    fetch(url, {
+    var nbcmoverlay = document.createElement("div");
+    nbcmoverlay.id = "nbcmoverlay";
+    nbcmoverlay.className = "nbcm-overlay";
+    nbcmoverlay.style = "display: block";
+    nbcmoverlay.innerText = "<span class='mdi mdi-spin mdi-loading'>Updating...</span>";
+    document.body.appendChild(nbcmoverlay);
+
+    const response = await fetch(url, {
         method: 'PATCH',
         credentials: 'same-origin',
         headers: {
-            'Cookie': 'csrftoken='+window.CSRF_TOKEN
+            'X-CSRFToken': token,
+            'content-type': 'application/json',
         },
         body: JSON.stringify(nbcm_views[view][item][2])
     })
     .catch(error => console.log(error));
-    
+    nbcmoverlay.innerText = "<span class='mdi mdi-spin mdi-loading'>Loading...</span>";
+   
     location.reload();
     return false;
 }
@@ -258,9 +345,6 @@ function nbcmHideBox() {
 }
 
 function nbcmShowbox(currentTarget, relatedTarget) {
-    //e.preventDefault();
-    // if (relatedTarget.innerText == '') return; // mouse moved from the menu to the menu (ignore)
-
     var nbcmboxmenu = document.getElementById("nbcmboxmenu");
     if (nbcmboxmenu) {
         var current_url = window.location.pathname + window.location.search + window.location.hash
@@ -289,7 +373,11 @@ function nbcmShowbox(currentTarget, relatedTarget) {
                         urltarget = viewitem[2]
                         displayitem = displayitem + ' <i class="mdi mdi-open-in-new" style="margin-left:0.2em"></i>'
                     }
-                    if (viewitem[0] == '#copy') {
+                    if (viewitem[0].startsWith('#PATCH#')) {
+                        // newurl='#" onclick="nbcmDoPost(\'' + view + id + '/edit/?return_url=' + current_url + '\',\'' + view + '\',\'' + item + '\')'
+                        newurl='#" onclick="nbcmUpdateItem(this,\'' + view + '\',\'' + item + '\',' + id + ',\'' + current_url + '\')'
+                        urltarget=''
+                    } else if (viewitem[0] == '#copy') {
                         newurl='#" onclick="window.navigator.clipboard.writeText(\''+objtext.replace("'","\\'")+'\')'
                     } else if (viewitem[0].startsWith('/')) {
                         newurl.pathname = uri[0].replace('$id$', id).replace('$obj_ip$', objtext.split('/')[0]).replace('$obj$', objtext).replace('$current_url$',current_url);
@@ -348,6 +436,7 @@ function nbcm_add_burgers() {
         '.nbcm-menu > li > a {  text-decoration: unset;   padding: 1px;   width: 100%;  display: flex;  transition: 0.5s linear;  -webkit-transition: 0.5s linear;  -moz-transition: 0.5s linear;  -ms-transition: 0.5s linear;  -o-transition: 0.5s linear;}',
         '.nbcm-menu > li > a > i {  padding-right: 10px; }',
         '.nbcm-menu > li.trash > a:hover {  color: red; }',
+        '.nbcm-overlay { position: fixed; display: block;  width: 100%; height: 100%; top: 0; left: 0; right: 0; bottom: 0; background-color: rgba(0,0,0,0.25); z-index: 9999; cursor: pointer; color: white; text-align: center; padding-top: 20%; font-size: 2em; }',
     ]
     var head = document.getElementsByTagName('head')[0];
     if (head) {
@@ -409,7 +498,6 @@ function nbcm_add_burgers() {
                             nbcmbox.addEventListener('mouseover', function (e) {
                                 var currentTarget = e.currentTarget;
                                 var relatedTarget = e.relatedTarget;
-                                var fromElement   = e.fromElement;
 
                                 clearTimeout(globalThis.nbcmopentimeout);
                                 globalThis.nbcmopentimeout = setTimeout(function() {
