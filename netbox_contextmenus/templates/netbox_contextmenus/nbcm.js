@@ -321,7 +321,7 @@ async function nbcmUpdateItem(element, view, item, id, return_url) {
     nbcmoverlay.id = "nbcmoverlay";
     nbcmoverlay.className = "nbcm-overlay";
     nbcmoverlay.style = "display: block";
-    nbcmoverlay.innerText = "<span class='mdi mdi-spin mdi-loading'>Updating...</span>";
+    nbcmoverlay.innerHTML = "<span class='mdi mdi-spin mdi-loading'>Updating...</span>";
     document.body.appendChild(nbcmoverlay);
 
     const response = await fetch(url, {
@@ -334,7 +334,7 @@ async function nbcmUpdateItem(element, view, item, id, return_url) {
         body: JSON.stringify(nbcm_views[view][item][2])
     })
     .catch(error => console.log(error));
-    nbcmoverlay.innerText = "<span class='mdi mdi-spin mdi-loading'>Loading...</span>";
+    nbcmoverlay.innerHTML = "<span class='mdi mdi-spin mdi-loading'>Loading...</span>";
    
     location.reload();
     return false;
@@ -369,10 +369,6 @@ function nbcmShowbox(currentTarget, relatedTarget) {
                     var uri = viewitem[0].split('?');
                     var displayitem = item;
                     var urltarget = ''
-                    if (viewitem.length>2) {
-                        urltarget = viewitem[2]
-                        displayitem = displayitem + ' <i class="mdi mdi-open-in-new" style="margin-left:0.2em"></i>'
-                    }
                     if (viewitem[0].startsWith('#PATCH#')) {
                         // newurl='#" onclick="nbcmDoPost(\'' + view + id + '/edit/?return_url=' + current_url + '\',\'' + view + '\',\'' + item + '\')'
                         newurl='#" onclick="nbcmUpdateItem(this,\'' + view + '\',\'' + item + '\',' + id + ',\'' + current_url + '\')'
@@ -383,6 +379,10 @@ function nbcmShowbox(currentTarget, relatedTarget) {
                         newurl.pathname = uri[0].replace('$id$', id).replace('$obj_ip$', objtext.split('/')[0]).replace('$obj$', objtext).replace('$current_url$',current_url);
                     } else if (viewitem[0].includes('://')) {
                         if ((objtext.length==0) || (objtext.search(/^\d+$/)==0 && uri[0].search(/\$obj\$/)>=0)) continue; // skip viewitem with links, if the objtext is numbers only, and the objtext is part of the uri[0]
+                        if (viewitem.length>2) {
+                            urltarget = viewitem[2]
+                            displayitem = displayitem + ' <i class="mdi mdi-open-in-new" style="margin-left:0.2em"></i>'
+                        }
                         newurl = uri[0].replace('$id$', id).replace('$obj_ip$', objtext.split('/')[0]).replace('$obj$', objtext).replace('$current_url$',current_url);
                     } else {
                         newurl.pathname += uri[0];
