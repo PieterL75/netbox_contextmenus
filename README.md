@@ -1,20 +1,22 @@
 # netbox_contextmenus
-Add context buttons to the links, making navigating in netbox less clicky
+Add context buttons to the links, making navigating in NetBox less clicky
 
-![nbcm1](docs/nbcm3.png)
+![nbcm5](docs/nbcm5.png)
 
-![nbcm2](docs/nbcm4.png)
+![nbcm3](docs/nbcm3.png)
+
+![nbcm4](docs/nbcm4.png)
 
 The menu items can easliy be personalised
 
 ## INSTALLATION
 
-- install as a any regular plugin.  See  [https://docs.netbox.dev/en/stable/plugins/installation/](https://docs.netbox.dev/en/stable/plugins/installation/)
+- install as a any regular plugin.  See  [https://netboxlabs.com/docs/netbox/plugins/installation/](https://netboxlabs.com/docs/netbox/plugins/installation/)
 - PyPi Packagename is 'netbox-contextmenus'.
 - NetBox packagename is 'netbox_contextmenus'.
-- restart the netbox service
+- restart the NetBox service
 
-NBCM is compatible with NetBox v3 and v4.0
+NBCM is compatible with NetBox v3 and v4.0 (tested upto v4.5)
 
 ---
 ### IMPORTANT NOTE !
@@ -33,10 +35,12 @@ These settings can be customized using the PLUGINS_CONFIG variable in 'configura
 ```
 PLUGINS_CONFIG = {
     'netbox_contextmenus': {
-        'nbcmopendelay': 150
+        'nbcmopendelay': 150,
+        'hideburgers' : 0
     }
 }
 ```
 | variable | default | function |
 | --- | --- | --- |
 | nbcmopendelay | 150 | Time in milliseconds that the opening of the contextmenu will be delayed |
+| hideburgers | 0 | Hide the burger icon, but open the menu when hovering over a link. Works best when the nbcmopendelay is set to 500 |

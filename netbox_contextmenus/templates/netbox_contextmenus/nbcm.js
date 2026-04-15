@@ -1,4 +1,6 @@
 const nbcm_opendelay = {{ opendelay }}; // Menu opening delay in milliseconds
+const nbcm_hideburgermenu = {{ hideburgers }}; // Hide the burgers, but open the context menu when hovering over the link
+
 const nbcm_views_all = {    // Menu items shown on all models
     'pre': {
         'Edit': ['edit/?return_url=$current_url$', 'mdi-pencil'],
@@ -344,12 +346,18 @@ function nbcmHideBox() {
     document.getElementById("nbcmboxmenu").style.display = "none"
 }
 
-function nbcmShowbox(currentTarget, relatedTarget) {
+function nbcmShowbox(currentTarget, mouseEvent) {
+    var relatedTarget = mouseEvent.relatedTarget;
+
     var nbcmboxmenu = document.getElementById("nbcmboxmenu");
     if (nbcmboxmenu) {
         var current_url = window.location.pathname + window.location.search + window.location.hash
         var url = new URL(currentTarget.url)
         var nbcmboxpos = currentTarget.getBoundingClientRect();
+        if (nbcm_hideburgermenu == 1) {
+            nbcmboxpos.x = mouseEvent.clientX;
+            nbcmboxpos.y = mouseEvent.clientY;
+        }
         var urlpath = url.pathname;
         var parts = urlpath.split('/');
         var id = parts[3];
@@ -483,25 +491,30 @@ function nbcm_add_burgers() {
                         if (uri.startsWith(view)) {
                             // only add the menuicon to links that:
                             //  - start with the nbcm_views key
-                            var frag = document.createDocumentFragment()
-                            var nbcmbox = frag.appendChild(document.createElement("span"));
-                            nbcmbox.id = "nbcmbox";
-                            nbcmbox.className = "nbcm-box btn btn-sm nbcm-icon";
-                            nbcmbox.title = "Actions";
-                            var nbcmboxi=nbcmbox.appendChild(document.createElement("i"));
-                            nbcmboxi.className="mdi mdi-menu";
-                            
-                            link.appendChild(frag)
 
-                            link.style['white-space'] = 'nowrap';
 
+                            if (nbcm_hideburgermenu == 0) {
+                                var frag = document.createDocumentFragment()
+                                var nbcmbox = frag.appendChild(document.createElement("span"));
+                                nbcmbox.id = "nbcmbox";
+                                nbcmbox.className = "nbcm-box btn btn-sm nbcm-icon";
+                                nbcmbox.title = "Actions";
+                                var nbcmspani=nbcmbox.appendChild(document.createElement("i"));
+                                nbcmspani.className="mdi mdi-menu";
+                                
+                                link.appendChild(frag)
+
+                                link.style['white-space'] = 'nowrap';
+                            } else {
+                                var nbcmbox = link;
+                            }
                             nbcmbox.addEventListener('mouseover', function (e) {
                                 var currentTarget = e.currentTarget;
-                                var relatedTarget = e.relatedTarget;
+                                var mouseEvent = e;
 
                                 clearTimeout(globalThis.nbcmopentimeout);
                                 globalThis.nbcmopentimeout = setTimeout(function() {
-                                    nbcmShowbox(currentTarget, relatedTarget)
+                                    nbcmShowbox(currentTarget, mouseEvent)
                                 }, nbcm_opendelay);
                             }, false);
                             

@@ -9,9 +9,14 @@ else:
 
 class ContextMenuRenderView(View):
     def get(self, request):
+        hideburgers = 1 if bool(get_plugin_config('netbox_contextmenus', 'hideburgers', 0)) else 0
+        nbcmopendelay = get_plugin_config('netbox_contextmenus', 'nbcmopendelay', 150 if hideburgers==0 else 350)
         return render(
             request, 
             'netbox_contextmenus/nbcm.js', 
-            { 'opendelay' : get_plugin_config('netbox_contextmenus', 'nbcmopendelay') }, 
+            { 
+                'opendelay' : nbcmopendelay, 
+                'hideburgers' : hideburgers,
+            }, 
             content_type='application/javascript'
         )
